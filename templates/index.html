@@ -1,77 +1,251 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="A web application where you can search for a song on Spotify and see whether it has the potential to be a hit."/>
+    <meta name="keywords" content="spotify,prediction,machine,learning,search,song,popularity" />
+    <meta name="author" content="Rares Dinu" />
     <title>Spotify Popularity Predictor</title>
-   <!-- Font Awesome -->
+   <link rel="icon" href="static/images/favicon.ico" type="image/x-icon"/>
    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
     <link href="{{ url_for('static', filename='css/newmain.css') }}" type="text/css" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="{{ url_for('static', filename='js/jquery.textfill.min.js') }}"></script>
   </head>
   <body>
-  <div class="container-fluid">
+  <div class="container-fluid" style="width:100%;height:100%;">
     <div class="row">
     <div class="col">
-    <h1 class="centeredText"> <u>Spotify Popularity Prediction</u></h1>
+    <br>
+    <a href="/"><h1 class="display-2 centeredText" style="font-size:4vw"> <b>Spotify Popularity Predictor</b> </h1></a>
     </div>
     </div>
-
     <div class="row" id="panel1">
-      <div class="col-md-3 center_div">
-          {% if message %}
+      <div class="col-md-6 center_div" >
+        {% if message %}
           <h5 style="text-align:center">{{message}}</h5>
-          {% endif %}         
-          {% if spotifyURL %}
-          <div class="card" style="">
-          <img class="card-img-top" src={{imageLink}} alt="Card image cap">
-          <div class="card-body">
-            <h5 class="card-title">You searched for <a href={{spotifyURL}}>{{trackName}}</a> by {{artistName}}</h5>
-            <!-- <p class="card-text"> This song is </p> -->
-            <hr>
-            {% if isPopular %}
-              <h4> Popular :) </h4>
-              <img class="img-fluid rounded mx-auto d-block" src="static/fire.png" style="width:25%"/>
-            {% else %}
-              <h4> Not popular :( </h4>
-              <img class="img-fluid rounded mx-auto d-block" src="static/cold.png" style="width:25%"/>
-            {% endif %}
-            <hr>
-            <br>
-            <a href={{spotifyURL}} class="center_div btn btn-success">Go to song on Spotify</a>
-          </div>
-        </div>
+          {% endif %} 
+        {% if spotifyURL %}
+        <br>
+        <div class="card">
+          <div class="row">
+            <div class="col-lg-6">
+                <!-- <span style="display:flex; flow-direction:column;height:50%"> -->
+                <img class="img-fluid rounded" style="height:auto;max-width:100%;" src={{imageLink}} alt="Album cover for the song {{trackName}} by {{artistName}}" id="albumCover">
+                <!-- </span> -->
+            </div>
+            <div class="col-lg-6" style="display:flex;">
+                
+                {% if spotifyURL %}
+                  <div class="card-body center_div" style="">
+                  <div class="row">
+                  <div class="col">
+                  <div  id="my-element" style="width:100%; height:100%;">
+                  <h4 class="card-title" style="text-align:center;" id="jtextfill">You searched for <a href={{spotifyURL}} target="_blank" rel="noreferrer">{{trackName}}</a> <br> by {{artistName}}</h4>
+                  </div>
+                  </div>
+                  </div>
+                  <div class="row">
+                  <div class="col">
+                  <hr>
+                  {% if isPopular %}
+                      <h4 style="text-align:center"> Popular :) </h4>
+                      <img class="img-fluid rounded mx-auto d-block" src="static/images/fire.png" style="width:20%" alt="Fire emoji"/>
+                    {% else %}
+                      <h4 style="text-align:center"> Not popular :( </h4>
+                      <img class="img-fluid rounded mx-auto d-block" src="static/images/cold.png" style="width:20%" alt="Cold face emoji"/>
+                    {% endif %}
+                  <hr>
+                  </div>
+                  </div>
+                  <div class="row">
+                  <div class="col">
 
-            <!-- <h1 class="centeredText">You searched for <a href={{spotifyURL}}>{{trackName}}</a> by {{artistName}}</h1> -->
-            <!-- <img src={{imageLink}} style="width: 40%;height: 50%;margin-left: auto;margin-right: auto;display: block;"></img> -->
-            <!-- <h3 class="centeredText"> This song is </h3> -->
-            
+                  <p style="text-align:center; opacity:0.3"> Using the {{usingCls}} classifier </p>
+                  
+                    <a href={{spotifyURL}} target="_blank" rel="noreferrer" class="center_div btn btn-success">Go to song on Spotify</a>
+                  </div>
+                  </div>
+                {% endif %}
+                </div>
+              </div>
+              </div>
+            </div>
           {% endif %}
-      </div>
-      </div>
+        </div>
+    </div>
     
+      {% if not spotifyURL %}
+      <div class="row" style="">
+        <div class="col-md-4 center_div">
+        <img class="img-fluid mx-auto d-block" style="width:50%;opacity:1;" src="static/images/logo1.png" alt="Website logo - Spotify logo with fire emoji on the left and cold face emoji on the right"/>
+        </div>
+      </div>
+      {% endif %}
     <br>
     <div class="row">
-      <div class="col-md-3"></div>
-      <div class="col-md-6">
+      <div class="col-md-6 center_div">
   
                 <form method="get" action="/search" class="form-inline" id="searchForm">
-                  <input  type="text" name="q" placeholder="Look for a song..." class="col-lg-10 form-control form-control-lg">
-                  <button class="col-lg-2 btn btn-lg btn-outline-success" type="submit">Search</button>
+                  <input aria-label="Search for a song" id="input" type="text" name="q" placeholder="Look for a song..." class="col-lg-9 form-control form-control-lg genericText" style="width:100%">
+                  <button aria-label="Search" class="col-lg-1 btn btn-lg btn-outline-success advButton genericText" id="optBtn" type="button" onclick="showAdvancedOptions()">+</button>
+                  <select class = "col-lg-2 form-control form-control-lg" id="sel" name="sel" style="width:100%;display:none">
+                    {% if usingCls %}
+                    <option style="font-style:italic; color:#5cb85c; text-align:center" selected>{{usingCls}}</option>
+                    {% endif %}
+                    <option>MLP</option>
+                    <option>SVM</option>
+                    <option>SVM SMOTE</option>
+                    <option>Log. Reg.</option>
+                    <option>MLP Online</option>
+                    
+                  </select>
+                  <button class="col-lg-2 btn btn-lg btn-success genericText" style="width:100%;" type="submit">Search</button>
                   </form>            
       </div>
-      <div class="col-md-3"></div>
     </div>
+    <div class="row">
+      <div class="col-md-6 center_div">
+      <div class="row">
+        <div class = "col-md-12">
+          <div class="btn-group" style="width:100%" role="group" aria-label="Basic example">
+          <button type="button" data-buttonid="howto" class="btn btn-lg btn-outline-success customButton choiceButton">How to</button>
+          <button type="button" data-buttonid="about" class="btn btn-lg btn-outline-success customButton choiceButton">About</button>
+          <button type="button" data-buttonid="models" class="btn btn-lg btn-outline-success customButton choiceButton">Models</button>
+          </div>
+        </div>
+      </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 center_div">
+        
+
+          <div class="card" id="infoCard" style="display:none">
+            
+            <div class="card-body">
+            <p id="textField" class="cardText genericText"></p>
+            </div>
+          </div>
+      </div>
+    </div>
+    <br>
+
   </div>
   <script>
-    // $(function() {
+      var contentAbout = "This is a tool that uses machine learning to predict whether a song has the features that popular songs today have. In other words, it tries to predict whether a song has the potential to be popular.<br><br>The models available are trained on a dataset of 570 songs from Spotify from a lot of different charts in different regions around the globe. Out of these songs, we clasify as popular the songs that have 90 or more popularity(a metric from Spotify).<br><br>The model outputs takes as input the song you search for and outputs a label. There are two possible labels: 0 or 1 i.e. not popular or popular.<br><br><button class='btn btn-sm btn-outline-success' onclick='moreDetails()'>I want more details</button><p id='moreDetails' style='display:none'></p>";
+      var contentMoreDetails = "<br>To output this label, when it is trained, our model looks at the features of a song (13 in total) such as tempo, duration, loudness, key, mode, etc. and tries to find a correlation between the values of the features and the popularity of the song. The popularity is a metric derived by spotify and it is calculated depending on the number of plays a song gets and how recent those plays are.<br><br>After it has done the learning it has established certain rules to apply to a new song. For example, it might have established that all songs with a tempo over 100bpm are popular. So, if you would search for a song that meets that criteria it will be predicted as popular. The actual rules depend on all the input features and may be really complex.<br><br>Given the fact that the features our model uses are only dependent on the raw audio, it means that the predicted label represents whether a song has the features a popular songs has. In other words, our model finds patterns in popular songs and tells us whether the song we look for has those patterns. We can then infer that a song predicted as popular has the potential of actually becoming popular. Of course, the popularity of a song depends on much more than the features of the raw audio(it can depend on the artist, whether the song appears in a popular film, if it is being played a lot on the radio) so it doesn't mean that the results of this tool will directly apply to the real world but it can provide an indication. <br><br>This <a href='https://open.spotify.com/user/217unxkx4en4irnq4nkvgax6y/playlist/1v3tLpVLqty2FMPm4oY2rs?si=9cSmpYZNSj6xjX2kXW3Jtg'>playlist</a> was used to aggregate the songs."
+      var contentHowTo = "Just search for a song as you would on the Spotify app. You will get the first result that matches your query and an emoji depicting the label predicted by the classifier.<br><br>Fire emoji <img class='img-fluid' src='static/images/fire.png' style='width:2rem' alt='Fire emoji'/> means the song was predicted popular and the cold face emoji <img class='img-fluid' src='static/images/cold.png' style='width:2rem' alt='Cold face emoji'/> means the song was predicted not popular.<br><br>Popular <u>does not</u> mean the song is popular right now, instead it means that the song has the features of a popular song. For more information see the 'About' section.";
+      var contentModels = "If you click the '+' next to the input field you get a selection of models you can choose from. You can switch between them to compare results. The testing is done with 10-fold cross-validation. The models available and their scores are given below:<br> <ul><li>MLP <small class='text-muted'>with SMOTE</small> - 0.692</li><li>SVM - 0.772</li><li>SVM <small class='text-muted'>with SMOTE</small> - 0.769<li>Log. Reg. - 0.744</li><li>MLP Online <small class='text-muted'>with SMOTE</small> - 0.684 <small class='text-muted'> *gets better with each prediction</small></li></ul>The scoring used is <b><i>Area Under the Receiver Operator Curve</i></b>. A very good model will have a score close to 1 and a random guesser will have a score closer to 0.5.";
+    var toggledCard = false;
+    $(function() {
+      $('.choiceButton').on('click', function(){
+        var buttonId = $(this).attr('data-buttonid');
+        var content="";
+        if(buttonId == "about")
+        {
+          content = contentAbout;
+        }
+        else if(buttonId == "howto")
+        {
+          content = contentHowTo;
+        }
+        else
+        {
+          content = contentModels;
+        }
+        $('#infoCard').show();
+        $('#textField').html(content);
+      });
+    });
+    var toggled = false;
+    function showAdvancedOptions() {
+        
+        if(!toggled) {
+          $('#input').removeClass('col-lg-9');
+          $('#input').addClass('col-lg-7');
+          $('#optBtn').html('-');
+          $('#sel').toggle();
+          toggled = true;
+        }
+        else
+        {
+          $('#input').removeClass('col-lg-7');
+          $('#input').addClass('col-lg-9');
+          $('#optBtn').html('+');
+          $('#sel').toggle();
+          toggled = false;
+        }
+          
+    };
+    function moreDetails() {
+        $('#moreDetails').html(contentMoreDetails);
+        $('#moreDetails').toggle();
+          
+    };
 
-    //   $('#searchForm').on('submit', function(){ 
-    //     $('#panel1').html("Submit ran");
-    //   });
+    function wordCount(str) { 
+      return str.split(" ").length;
+    }
 
-    // })
-  </script>
+    function sizeToWordCount(wc) { 
+      
+      if(wc > 40)
+      {
+        return 10;
+      }
+      else if(wc > 30)
+      {
+        return 15;
+      }
+      if(wc >= 22)
+      {
+        return 20;
+      }
+      else if(wc > 20)
+      {
+        return 22;
+      }
+      else
+      {
+        return 30;
+      }
+
+    }
+
+
+    function updateSize(){
+      //var size = parseInt($('#my-element').height(),10);
+      var text = $('#jtextfill').contents()['prevObject'][0]['innerText'];
+      console.log(text);
+      var size = wordCount(text) + 1;
+      console.log(size);
+      console.log("Gets called");
+      
+      if(!isNaN(size))
+      {
+        
+        $('#my-element').textfill({
+          innerTag: 'h4',
+          maxFontPixels: sizeToWordCount(size), //200 / (size/2),
+        });
+        
+        //$('#jtextfill').html($('#jtextfill').val());
+        console.log("gets here");
+        
+      }
+      
+    }
+    $(document).ready(function(){
+      var text = $('#jtextfill').contents().length;
+      console.log(text);
+      if(text != 0)
+      {
+        updateSize()
+      }
+      });
+    </script>
   </body>
 </html>
