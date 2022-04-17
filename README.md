@@ -18,7 +18,7 @@ The model outputs takes as input the song you search for and outputs a label. Th
 
 This app was part of [my disertation](https://github.com/pawKer/3rd_year_report/blob/master/compiled_pdf/RaresDinuDissertationFinal14.pdf) and the Jupyter Notebooks used for the research can be found [here](https://github.com/pawKer/Predicting-music-popularity).
 
-[More info](#💬-More-information)
+[More info](#-more-information)
 
 ## ❓ How it works
 
