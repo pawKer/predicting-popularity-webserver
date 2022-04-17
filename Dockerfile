@@ -5,5 +5,5 @@ RUN pip install -r requirements.txt
 CMD gunicorn --bind 0.0.0.0:$PORT server:app 
 
 # docker build .
-# heroku container:push web -a rarity-sniper-api
-# heroku container:release web -a rarity-sniper-api
+# heroku container:push web -a predicting-popularity
+# heroku container:release web -a predicting-popularity
