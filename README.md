@@ -6,7 +6,7 @@
 <div align="center" > 
 <img src="./preview/popular.gif" />
 </div>
-<h3 align="center"><a href="https://predicting-popularity.herokuapp.com/" target="_blank">Live preview</a></h3>
+<h3 align="center"><a href="https://predict.reshra.xyz/" target="_blank">Live preview</a></h3>
 
 ## 💬 About
 
@@ -58,4 +58,4 @@ Given the fact that the features our model uses are only dependent on the raw au
 
 ## 📦 Deployment
 
-Deployed as a container on Heroku. The commands to do that are in `Dockerfile`.
+~~Deployed as a container on Heroku. The commands to do that are in `Dockerfile`.~~ Moved to self hosted solution.
